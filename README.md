@@ -42,7 +42,7 @@ Chaque mémo de commande peut être utilisé indépendamment pour configurer les
 
 Instructions pour configurer un serveur DNS sur Debian 10.
 
-[Fichier DNS](Sae21/memento/dns.html)
+[Fichier DNS](Sae21/Memento/dns.html)
 
 ### NFS
 
