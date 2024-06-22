@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Consignes réimplantation du Réseau d'Entreprise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            
+        }
+        h1, h2, h3 {
+            color: #050f16;
+        }
+        ul {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Consignes réimplantation du Réseau d'Entreprise</h1>
+    
+    <h2>1. Préparation et Planification</h2>
+    <h3>Réseau physique</h3>
+    <ul>
+        <li>Assurez-vous que les 4 PC portables et la VM Debian 10 sont connectés au réseau via un switch ou un routeur.</li>
+    </ul>
+    <h3>Répartition des rôles</h3>
+    <ul>
+        <li>4 PC portables pour les utilisateurs.</li>
+        <li>Windows Server 2022 pour le contrôleur de domaine (Active Directory), DNS et peut-être DHCP.</li>
+        <li>VM Debian 10 pour le serveur webmail et éventuellement d'autres services (comme le serveur web).</li>
+    </ul>
+    
+    <h2>2. Installation et Configuration de Windows Server 2022</h2>
+    <h3>a. Installation de Windows Server 2022</h3>
+    <ul>
+        <li>Installez Windows Server 2022 sur le serveur dédié.</li>
+        <li>Effectuez les mises à jour nécessaires via Windows Update.</li>
+    </ul>
+    
+    <h3>b. Configuration du Contrôleur de Domaine (Active Directory)</h3>
+    <ul>
+        <li>Installez le rôle Active Directory Domain Services (AD DS).</li>
+        <li>Promouvez le serveur en tant que contrôleur de domaine :</li>
+        <ul>
+            <li>Utilisez l’assistant de configuration Active Directory.</li>
+            <li>Créez un nouveau domaine ou rejoignez un domaine existant.</li>
+        </ul>
+    </ul>
+    
+    <h3>c. Configuration du DNS</h3>
+    <ul>
+        <li>Installez le rôle DNS sur le serveur.</li>
+        <li>Configurez les zones de recherche directe et inverse selon le domaine créé.</li>
+    </ul>
+    
+    <h3>d. Configuration du DHCP (optionnel)</h3>
+    <ul>
+        <li>Installez le rôle DHCP si nécessaire.</li>
+        <li>Configurez les plages d’adresses IP, les réservations, et les options DHCP selon les besoins de l’entreprise.</li>
+    </ul>
+    
+    <h2>3. Configuration des PC Portables</h2>
+    <ul>
+        <li>Joignez chaque PC portable au domaine :</li>
+        <ul>
+            <li>Ouvrez les paramètres du système, accédez aux propriétés système et modifiez les paramètres pour rejoindre le domaine.</li>
+        </ul>
+        <li>Créez des comptes d'utilisateurs dans Active Directory pour chaque utilisateur.</li>
+        <li>Assurez-vous que chaque utilisateur puisse se connecter avec son compte de domaine.</li>
+    </ul>
+    
+    <h2>4. Configuration de la VM Debian 10</h2>
+    <h3>a. Installation et configuration du serveur webmail</h3>
+    <ul>
+        <li>Installez un serveur web (Apache ou Nginx).</li>
+        <li>Installez et configurez un serveur de mail (Postfix, Dovecot, etc.).</li>
+        <li>Installez une interface webmail (Roundcube, RainLoop, etc.).</li>
+    </ul>
+    
+    <h3>b. Configuration DNS pour le webmail</h3>
+    <ul>
+        <li>Ajoutez les enregistrements DNS nécessaires sur le serveur DNS Windows pour pointer vers le serveur webmail.</li>
+        <li>Assurez-vous que les enregistrements MX (Mail Exchange) sont correctement configurés.</li>
+    </ul>
+    
+    <h2>5. Tests et Vérifications</h2>
+    <ul>
+        <li><strong>Connectivité :</strong></li>
+        <ul>
+            <li>Vérifiez que tous les appareils peuvent se connecter au réseau.</li>
+            <li>Testez la résolution DNS.</li>
+        </ul>
+        <li><strong>Domain :</strong></li>
+        <ul>
+            <li>Assurez-vous que tous les PC portables peuvent rejoindre le domaine et que les utilisateurs peuvent se connecter.</li>
+        </ul>
+        <li><strong>Services :</strong></li>
+        <ul>
+            <li>Testez le serveur webmail en envoyant et recevant des emails.</li>
+            <li>Vérifiez que les enregistrements DNS pour le webmail sont corrects.</li>
+        </ul>
+    </ul>
+    
+    <h2>6. Sécurité et Maintenance</h2>
+    <ul>
+        <li><strong>Sécurité :</strong></li>
+        <ul>
+            <li>Mettez en place des politiques de groupe (GPO) pour renforcer la sécurité sur le réseau.</li>
+            <li>Installez et configurez un antivirus sur tous les PC portables et serveurs.</li>
+        </ul>
+        <li><strong>Sauvegardes :</strong></li>
+        <ul>
+            <li>Configurez des solutions de sauvegarde régulière pour le serveur et les données critiques.</li>
+        </ul>
+    </ul>
+    
+    <h2>Outils et Commandes Utiles</h2>
+    <h3>Windows Server</h3>
+    <ul>
+        <li><strong>Promotion AD DS :</strong> <code>Install-WindowsFeature AD-Domain-Services</code></li>
+        <li><strong>DNS Configuration :</strong> <code>dnscmd</code></li>
+        <li><strong>DHCP Configuration :</strong> <code>Add-DhcpServerv4Scope</code>, <code>Set-DhcpServerv4OptionValue</code></li>
+    </ul>
+    
+    <h3>Debian</h3>
+    <ul>
+        <li><strong>Installation Apache :</strong> <code>sudo apt-get install apache2</code></li>
+        <li><strong>Installation Postfix :</strong> <code>sudo apt-get install postfix</code></li>
+        <li><strong>Installation Roundcube :</strong> <code>sudo apt-get install roundcube</code></li>
+    </ul>
+</body>
+</html>

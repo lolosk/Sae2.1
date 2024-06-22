@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Installation de ProFTPD sur Debian 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Installation de ProFTPD sur Debian 10</h1>
+        
+        <h2>1. Mise à Jour du Système</h2>
+        <pre><code>sudo apt update
+sudo apt upgrade -y</code></pre>
+        
+        <h2>2. Installation de ProFTPD</h2>
+        <pre><code>sudo apt install proftpd -y</code></pre>
+        
+        <h2>3. Configuration de ProFTPD</h2>
+        
+        <h3>a. Configuration de Base</h3>
+        <ul>
+            <li>Ouvrez le fichier de configuration principal de ProFTPD :</li>
+        </ul>
+        <pre><code>sudo nano /etc/proftpd/proftpd.conf</code></pre>
+        
+        <ul>
+            <li>Ajoutez ou modifiez les options suivantes selon vos besoins :</li>
+        </ul>
+        <pre><code># Activer le support IPv6 (optionnel)
+UseIPv6 on
+
+# Limiter ProFTPD à utiliser uniquement IPv4
+UseIPv4 off
+
+# Définir le masque d'UMASK par défaut pour les fichiers téléchargés
+Umask 022
+
+# Activer le mode passif et spécifier les ports
+PassivePorts 49152 65534
+
+# Définir le serveur par défaut et le masquer
+ServerIdent on "FTP Server ready."
+ServerName "Debian FTP Server"
+
+# Utiliser l'authentification système pour les utilisateurs FTP
+AuthPAM off
+
+# Spécifier le dossier racine pour les utilisateurs FTP
+DefaultRoot ~
+
+# Limiter les utilisateurs FTP au dossier home
+RequireValidShell off</code></pre>
+        
+        <h3>b. Gestion des Utilisateurs FTP</h3>
+        <ul>
+            <li>Pour ajouter un utilisateur FTP :</li>
+        </ul>
+        <pre><code>sudo adduser nom_utilisateur</code></pre>
+        
+        <ul>
+            <li>Pour changer le mot de passe d'un utilisateur FTP :</li>
+        </ul>
+        <pre><code>sudo passwd nom_utilisateur</code></pre>
+        
+        <h2>4. Redémarrage de ProFTPD</h2>
+        <pre><code>sudo systemctl restart proftpd</code></pre>
+        
+        <h2>5. Tests et Vérifications</h2>
+        <ul>
+            <li>Connectez-vous au serveur FTP avec un client FTP tel que FileZilla en utilisant les informations de votre utilisateur FTP pour vérifier la configuration.</li>
+        </ul>
+    </div>
+</body>
+</html>

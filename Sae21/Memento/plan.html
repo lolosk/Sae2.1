@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Réimplantation du Réseau d'Entreprise</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Réimplantation du Réseau d'Entreprise</h1>
+        
+        <h2>1. Préparation et Planification</h2>
+        <h3>Réseau physique</h3>
+        <ul>
+            <li>Assurez-vous que les 4 PC portables et la VM Debian 10 sont connectés au réseau via un switch ou un routeur.</li>
+        </ul>
+        <h3>Répartition des rôles</h3>
+        <ul>
+            <li>4 PC portables pour les utilisateurs.</li>
+            <li>Windows Server 2022 pour le contrôleur de domaine (Active Directory), DNS et peut-être DHCP.</li>
+            <li>VM Debian 10 pour le serveur webmail et éventuellement d'autres services (comme le serveur web).</li>
+        </ul>
+        
+        <h2>2. Installation et Configuration de Windows Server 2022</h2>
+        <h3>a. Installation de Windows Server 2022</h3>
+        <ul>
+            <li>Téléchargez l'ISO de Windows Server 2022 depuis le portail de Microsoft.</li>
+            <li>Démarrez le serveur à partir de l'ISO pour lancer l'installation.</li>
+            <li>Suivez les instructions à l'écran pour installer Windows Server 2022.</li>
+            <li>Effectuez les mises à jour nécessaires via Windows Update.</li>
+        </ul>
+        
+        <h3>b. Configuration du Contrôleur de Domaine (Active Directory)</h3>
+        <ul>
+            <li>Ouvrez le Gestionnaire de serveur et ajoutez le rôle AD DS.</li>
+            <li>Promouvez le serveur en tant que contrôleur de domaine en utilisant l’assistant de configuration Active Directory.</li>
+            <li>Créez un nouveau domaine ou rejoignez un domaine existant.</li>
+            <li>Redémarrez le serveur après la promotion.</li>
+        </ul>
+        
+        <h3>c. Configuration du DNS</h3>
+        <ul>
+            <li>Ouvrez le Gestionnaire de serveur et ajoutez le rôle DNS.</li>
+            <li>Configurez les zones de recherche directe et inverse selon le domaine créé.</li>
+        </ul>
+        
+        <h3>d. Configuration du DHCP (optionnel)</h3>
+        <ul>
+            <li>Ouvrez le Gestionnaire de serveur et ajoutez le rôle DHCP.</li>
+            <li>Créez une nouvelle plage d'adresses IP et configurez les réservations et les options DHCP.</li>
+        </ul>
+        
+        <h2>3. Configuration des PC Portables</h2>
+        <ul>
+            <li>Ouvrez les paramètres système sur chaque PC portable et rejoignez le domaine.</li>
+            <li>Créez des comptes d'utilisateurs dans Active Directory pour chaque utilisateur.</li>
+            <li>Assurez-vous que chaque utilisateur peut se connecter avec son compte de domaine.</li>
+        </ul>
+        
+        <h2>4. Configuration de la VM Debian 10</h2>
+        <h3>a. Installation et configuration du serveur webmail</h3>
+        <ul>
+            <li>Mettez à jour le système : <code>sudo apt-get update</code></li>
+            <li>Installez Apache : <code>sudo apt-get install apache2</code></li>
+            <li>Installez Postfix : <code>sudo apt-get install postfix</code></li>
+            <li>Installez Dovecot : <code>sudo apt-get install dovecot-core dovecot-imapd dovecot-pop3d</code></li>
+            <li>Installez Roundcube : <code>sudo apt-get install roundcube</code></li>
+        </ul>
+        
+        <h3>b. Configuration DNS pour le webmail</h3>
+        <ul>
+            <li>Ajoutez un enregistrement A et un enregistrement MX pour le serveur webmail sur le serveur DNS Windows.</li>
+            <li>Utilisez des outils comme <code>nslookup</code> ou <code>dig</code> pour vérifier les enregistrements DNS.</li>
+        </ul>
+        
+        <h2>5. Tests et Vérifications</h2>
+        <ul>
+            <li><strong>Connectivité :</strong> Vérifiez que tous les appareils peuvent se connecter au réseau et testez la résolution DNS.</li>
+            <li><strong>Domain :</strong> Assurez-vous que tous les PC portables peuvent rejoindre le domaine et que les utilisateurs peuvent se connecter.</li>
+            <li><strong>Services :</strong> Testez le serveur webmail en envoyant et recevant des emails et vérifiez les enregistrements DNS pour le webmail.</li>
+        </ul>
+        
+        <h2>6. Sécurité et Maintenance</h2>
+        <ul>
+            <li><strong>Sécurité :</strong> Mettez en place des politiques de groupe (GPO) et installez un antivirus sur tous les PC portables et serveurs.</li>
+            <li><strong>Sauvegardes :</strong> Configurez des solutions de sauvegarde régulière pour le serveur et les données critiques.</li>
+        </ul>
+    </div>
+</body>
+</html>

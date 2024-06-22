@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Installation et Configuration de PostgreSQL sur Debian 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Installation et Configuration de PostgreSQL sur Debian 10</h1>
+        
+        <h2>1. Installation de PostgreSQL</h2>
+        <pre><code>sudo apt update
+sudo apt install postgresql postgresql-contrib -y</code></pre>
+        
+        <h2>2. Configuration de PostgreSQL</h2>
+        <ul>
+            <li>PostgreSQL est installé avec une configuration par défaut sécurisée.</li>
+            <li>Si nécessaire, ajustez les paramètres dans le fichier de configuration principal :</li>
+        </ul>
+        <pre><code>sudo nano /etc/postgresql/13/main/postgresql.conf</code></pre>
+        
+        <ul>
+            <li>Redémarrez PostgreSQL pour appliquer les changements de configuration :</li>
+        </ul>
+        <pre><code>sudo systemctl restart postgresql</code></pre>
+        
+        <h2>3. Accès à PostgreSQL</h2>
+        <ul>
+            <li>Connectez-vous à PostgreSQL en tant qu'utilisateur postgres :</li>
+        </ul>
+        <pre><code>sudo -i -u postgres
+psql</code></pre>
+        
+        <h2>4. Création d'une Base de Données et d'un Utilisateur</h2>
+        <ul>
+            <li>Créez une nouvelle base de données :</li>
+        </ul>
+        <pre><code>CREATE DATABASE nom_de_la_base;</code></pre>
+        
+        <ul>
+            <li>Créez un nouvel utilisateur et attribuez-lui des privilèges sur la base de données :</li>
+        </ul>
+        <pre><code>CREATE USER nom_utilisateur WITH PASSWORD 'mot_de_passe';
+GRANT ALL PRIVILEGES ON DATABASE nom_de_la_base TO nom_utilisateur;</code></pre>
+        
+        <h2>5. Tests et Vérifications</h2>
+        <ul>
+            <li>Connectez-vous à PostgreSQL avec le nouvel utilisateur pour vérifier les accès :</li>
+        </ul>
+        <pre><code>psql -U nom_utilisateur -d nom_de_la_base -h localhost</code></pre>
+        
+        <h2>6. Sécurité et Maintenance</h2>
+        <ul>
+            <li>Assurez-vous de sécuriser et de sauvegarder régulièrement votre base de données PostgreSQL.</li>
+        </ul>
+    </div>
+</body>
+</html>

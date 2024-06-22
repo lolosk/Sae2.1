@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Installation et Configuration d'un Serveur DNS sur Debian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Installation et Configuration d'un Serveur DNS sur Debian</h1>
+        
+        <h2>1. Mise à Jour du Système</h2>
+        <pre><code>sudo apt update
+sudo apt upgrade -y</code></pre>
+        
+        <h2>2. Installation de BIND9</h2>
+        <pre><code>sudo apt install bind9 -y</code></pre>
+        
+        <h2>3. Configuration de BIND9</h2>
+        
+        <h3>a. Configuration de la Zone de Recherche Directe</h3>
+        <ul>
+            <li><strong>Créer le fichier de zone :</strong></li>
+        </ul>
+        <pre><code>sudo nano /etc/bind/db.example.com</code></pre>
+        <pre><code>$TTL 86400
+@    IN    SOA   ns1.example.com. admin.example.com. (
+                  2024061901 ; Serial
+                  3600       ; Refresh
+                  1800       ; Retry
+                  604800     ; Expire
+                  86400 )    ; Minimum TTL
+;
+@    IN    NS    ns1.example.com.
+ns1  IN    A     192.168.1.10
+@    IN    A     192.168.1.10
+www  IN    A     192.168.1.20</code></pre>
+
+        <ul>
+            <li><strong>Modifier le fichier de configuration principal :</strong></li>
+        </ul>
+        <pre><code>sudo nano /etc/bind/named.conf.local</code></pre>
+        <pre><code>zone "example.com" {
+    type master;
+    file "/etc/bind/db.example.com";
+};</code></pre>
+
+        <h3>b. Configuration de la Zone de Recherche Inverse</h3>
+        <ul>
+            <li><strong>Créer le fichier de zone inverse :</strong></li>
+        </ul>
+        <pre><code>sudo nano /etc/bind/db.192.168.1</code></pre>
+        <pre><code>$TTL 86400
+@    IN    SOA   ns1.example.com. admin.example.com. (
+                  2024061901 ; Serial
+                  3600       ; Refresh
+                  1800       ; Retry
+                  604800     ; Expire
+                  86400 )    ; Minimum TTL
+;
+@    IN    NS    ns1.example.com.
+10   IN    PTR   ns1.example.com.
+20   IN    PTR   www.example.com.</code></pre>
+
+        <ul>
+            <li><strong>Modifier le fichier de configuration principal :</strong></li>
+        </ul>
+        <pre><code>sudo nano /etc/bind/named.conf.local</code></pre>
+        <pre><code>zone "1.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/db.192.168.1";
+};</code></pre>
+
+        <h2>4. Vérification de la Configuration</h2>
+        <ul>
+            <li><strong>Vérifier la syntaxe de la configuration :</strong></li>
+        </ul>
+        <pre><code>sudo named-checkconf</code></pre>
+        <ul>
+            <li><strong>Vérifier les fichiers de zone :</strong></li>
+        </ul>
+        <pre><code>sudo named-checkzone example.com /etc/bind/db.example.com
+sudo named-checkzone 1.168.192.in-addr.arpa /etc/bind/db.192.168.1</code></pre>
+
+        <h2>5. Redémarrage de BIND9</h2>
+        <pre><code>sudo systemctl restart bind9
+sudo systemctl enable bind9</code></pre>
+
+        <h2>6. Tests et Vérifications</h2>
+        <ul>
+            <li><strong>Test de la Résolution DNS :</strong></li>
+        </ul>
+        <pre><code>dig @localhost example.com
+dig @localhost www.example.com</code></pre>
+        <ul>
+            <li><strong>Test de la Résolution Inverse :</strong></li>
+        </ul>
+        <pre><code>dig @localhost -x 192.168.1.10
+dig @localhost -x 192.168.1.20</code></pre>
+    </div>
+</body>
+</html>

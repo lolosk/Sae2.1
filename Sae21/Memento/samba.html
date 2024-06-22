@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Installation et Configuration d'un Serveur SAMBA sur Debian 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Installation et Configuration d'un Serveur SAMBA sur Debian 10</h1>
+        
+        <h2>1. Installation de SAMBA</h2>
+        <pre><code>sudo apt update
+sudo apt install samba -y</code></pre>
+        
+        <h2>2. Configuration de SAMBA</h2>
+        <ul>
+            <li>Configurez les partages en éditant le fichier de configuration de SAMBA :</li>
+        </ul>
+        <pre><code>sudo nano /etc/samba/smb.conf</code></pre>
+        
+        <ul>
+            <li>Ajoutez des sections de partage pour chaque dossier que vous souhaitez partager :</li>
+        </ul>
+        <pre><code>[nom_partage]
+   path = /chemin/vers/repertoire
+   writable = yes
+   guest ok = yes
+   read only = no</code></pre>
+        
+        <h2>3. Redémarrage du Service SAMBA</h2>
+        <pre><code>sudo systemctl restart smbd</code></pre>
+        
+        <h2>4. Configuration des Permissions</h2>
+        <ul>
+            <li>Définissez les permissions appropriées sur les dossiers partagés pour les utilisateurs Samba.</li>
+        </ul>
+    </div>
+</body>
+</html>

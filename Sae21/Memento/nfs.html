@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Installation et Configuration d'un Serveur NFS sur Debian 10</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Installation et Configuration d'un Serveur NFS sur Debian 10</h1>
+        
+        <h2>1. Installation de NFS</h2>
+        <pre><code>sudo apt update
+sudo apt install nfs-kernel-server -y</code></pre>
+        
+        <h2>2. Configuration de NFS</h2>
+        <ul>
+            <li>Définissez les répertoires à partager en éditant le fichier d'export NFS :</li>
+        </ul>
+        <pre><code>sudo nano /etc/exports</code></pre>
+        
+        <ul>
+            <li>Ajoutez une ligne pour chaque répertoire que vous souhaitez partager :</li>
+        </ul>
+        <pre><code>/chemin/vers/repertoire client_ip(rw,sync,no_subtree_check)</code></pre>
+        
+        <h2>3. Redémarrage du Service NFS</h2>
+        <pre><code>sudo systemctl restart nfs-kernel-server</code></pre>
+        
+        <h2>4. Configuration du Client NFS</h2>
+        <ul>
+            <li>Installez le client NFS sur les machines clientes et montez les partages NFS nécessaires.</li>
+        </ul>
+    </div>
+</body>
+</html>

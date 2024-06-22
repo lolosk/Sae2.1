@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Installation et Configuration d'un Serveur Webmail sur Debian</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .content {
+            background: white;
+            padding: 20px;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #2E86C1;
+            text-align: center;
+        }
+        ul {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        code {
+            background: #e8e8e8;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background: #e8e8e8;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Installation et Configuration d'un Serveur Webmail sur Debian</h1>
+        
+        <h2>1. Mise à Jour du Système</h2>
+        <pre><code>sudo apt update
+sudo apt upgrade -y</code></pre>
+        
+        <h2>2. Installation d'Apache2</h2>
+        <pre><code>sudo apt install apache2 -y</code></pre>
+        
+        <h2>3. Installation de Postfix</h2>
+        <pre><code>sudo apt install postfix -y</code></pre>
+        <p>Lors de l'installation, choisissez l'option "Site Internet" et configurez votre nom de domaine lorsque cela est demandé.</p>
+        
+        <h2>4. Installation de Dovecot</h2>
+        <pre><code>sudo apt install dovecot-core dovecot-imapd dovecot-pop3d -y</code></pre>
+        
+        <h2>5. Installation de Roundcube</h2>
+        <pre><code>sudo apt install roundcube roundcube-core roundcube-mysql roundcube-plugins -y</code></pre>
+        
+        <h2>6. Configuration de Postfix</h2>
+        <ul>
+            <li>Ouvrez le fichier de configuration principal de Postfix :</li>
+        </ul>
+        <pre><code>sudo nano /etc/postfix/main.cf</code></pre>
+        <p>Assurez-vous que les lignes suivantes sont présentes et correctement configurées :</p>
+        <pre><code>myhostname = mail.example.com
+mydomain = example.com
+myorigin = /etc/mailname
+inet_interfaces = all
+inet_protocols = all
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+home_mailbox = Maildir/
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+biff = no
+append_dot_mydomain = no
+readme_directory = no
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_use_tls = yes
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+myhostname = mail.example.com
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
+relayhost =
+mynetworks = 127.0.0.0/8
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all</code></pre>
+
+        <h2>7. Configuration de Dovecot</h2>
+        <ul>
+            <li>Ouvrez le fichier de configuration principal de Dovecot :</li>
+        </ul>
+        <pre><code>sudo nano /etc/dovecot/dovecot.conf</code></pre>
+        <p>Assurez-vous que les lignes suivantes sont présentes et correctement configurées :</p>
+        <pre><code>protocols = imap pop3 lmtp
+mail_location = maildir:~/Maildir</code></pre>
+        
+        <h2>8. Configuration de Roundcube</h2>
+        <ul>
+            <li>Configurer Apache pour Roundcube :</li>
+        </ul>
+        <pre><code>sudo nano /etc/apache2/conf-enabled/roundcube.conf</code></pre>
+        <p>Assurez-vous que le fichier contient les lignes suivantes :</p>
+        <pre><code>Alias /roundcube /var/lib/roundcube
+<Directory /var/lib/roundcube/>
+    Options +FollowSymLinks
+    AddType application/x-httpd-php .php
+    DirectoryIndex index.php
+
+    <IfModule mod_php5.c>
+        php_flag display_errors Off
+        php_flag log_errors On
+        php_value include_path .:/usr/share/php
+        php_value upload_max_filesize 10M
+        php_value post_max_size 12M
+        php_value memory_limit 64M
+        php_flag zlib.output_compression Off
+    </IfModule>
+</Directory>
+
+<Directory /var/lib/roundcube/plugins>
+    Options +FollowSymLinks
+    AllowOverride None
+</Directory>
+
+<Directory /var/lib/roundcube/config>
+    Options -FollowSymLinks
+    AllowOverride None
+</Directory></code></pre>
+
+        <ul>
+            <li>Redémarrer Apache :</li>
+        </ul>
+        <pre><code>sudo systemctl restart apache2</code></pre>
+        
+        <h2>9. Tests et Vérifications</h2>
+        <ul>
+            <li>Accédez à Roundcube via un navigateur web :</li>
+        </ul>
+        <p>Ouvrez votre navigateur et allez à <code>http://votre_serveur/roundcube</code>. Connectez-vous avec un compte utilisateur pour vérifier que tout fonctionne correctement.</p>
+    </div>
+</body>
+</html>
