@@ -48,31 +48,31 @@ Instructions pour configurer un serveur DNS sur Debian 10.
 
 Instructions pour configurer un serveur NFS pour le partage de fichiers sur un réseau.
 
-[Fichier NFS](Sae21/memento/nfs.html)
+[Fichier NFS](/memento/nfs.html)
 
 ### Plan de Réseau
 
 Le plan de réseau détaillant la topologie et les configurations nécessaires pour le déménagement de l'entreprise.
 
-[Fichier Plan de Réseau](Sae21/memento/plan.html)
+[Fichier Plan de Réseau](/memento/plan.html)
 
 ### ProFTPD
 
 Instructions pour installer et configurer ProFTPD sur Debian 10.
 
-[Fichier ProFTPD](Sae21/memento/proftpd.html)
+[Fichier ProFTPD](/memento/proftpd.html)
 
 ### Samba
 
 Instructions pour configurer un serveur Samba pour le partage de fichiers et l'intégration Windows/Linux.
 
-[Fichier Samba](Sae21/memento/samba.html)
+[Fichier Samba](/memento/samba.html)
 
 ### Webmail
 
 Instructions pour installer et configurer un serveur Webmail sur Debian.
 
-[Fichier Webmail](./webmail.html)
+[Fichier Webmail](/memento/webmail.html)
 
 ## Auteur
 
