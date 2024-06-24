@@ -22,7 +22,7 @@ Ce projet a été réalisé en équipe dans le cadre de la SAE2.1. L'objectif é
 
 Ce projet a pour but de simuler le déménagement et la reconfiguration du réseau d'une entreprise fictive. Le plan représente les étapes de déploiement de ce réseau. Les mémos de commandes fournissent des instructions détaillées pour configurer différents services réseau.
 
-![WikiSae21](Wiki-Sae21.jpg)
+![WikiSae21](https://github.com/lolosk/Sae2.1/blob/main/Wiki-Sae21.png)
 
 
 ## Prérequis
